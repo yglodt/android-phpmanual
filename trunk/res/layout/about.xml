@@ -22,16 +22,21 @@
 	</TableRow>
 
     <TableRow android:gravity="center">
-    <TextView android:text="Offline PHP Documentation Viewer" android:textColor="#000" />
+    <TextView android:text="Offline PHP Manual Viewer" android:textColor="#000" />
 	</TableRow>
 
     <TableRow android:gravity="center">
-    <TextView android:text="Version: 1.0.0" android:textColor="#000" />
+    <TextView android:text="Version: 0.9 / 28.12.2009" android:textColor="#000" />
     </TableRow>
-
+    
     <TableRow android:gravity="center">
-    <TextView android:text="Release Date: 20.12.2009" android:textColor="#000" />
+    <TextView
+    android:text="http://android-phpmanual.googlecode.com/"
+    android:textSize="11dip"
+    android:autoLink="web"
+    />
     </TableRow>
+    
     <!-- 
     <TableRow android:gravity="center">
     	<Button android:id="@+id/closeAbout"
