@@ -10,6 +10,7 @@ import java.net.URL;
 import java.util.Enumeration;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
+
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -27,7 +28,7 @@ import android.widget.Button;
 import android.widget.Spinner;
 
 public class DownloadActivity extends Activity {
-	
+
 	private ProgressDialog pd;
 	private SharedPreferences myPrefs;
 
@@ -37,9 +38,9 @@ public class DownloadActivity extends Activity {
 	private Button cancelButton;
 	private String lang;
 	private int delete;
-	
-    protected PowerManager.WakeLock mWakeLock;
-	
+
+	protected PowerManager.WakeLock mWakeLock;
+
 	String[] languageValues = {
 			"English",
 			"Bulgarian",
@@ -52,7 +53,7 @@ public class DownloadActivity extends Activity {
 			"Romanian",
 			"Turkish"
 			,"Testing"
-			};
+	};
 	String[] languageKeys = {
 			"en",
 			"bg",
@@ -65,9 +66,9 @@ public class DownloadActivity extends Activity {
 			"ro",
 			"tr"
 			,"test"
-			};
-	
-	
+	};
+
+
 	private class DownloadAndInstall extends AsyncTask<SharedPreferences, String, Boolean> {
 
 		protected void onPreExecute() {
@@ -83,7 +84,7 @@ public class DownloadActivity extends Activity {
 		protected Boolean doInBackground(SharedPreferences... prefs) {
 			String destPath = "php-manual";
 			String fileName = "phpmanual.zip";
-			
+
 			language = (Spinner) findViewById(R.id.lang_spinner);
 			lang = languageKeys[language.getSelectedItemPosition()];
 
@@ -96,9 +97,9 @@ public class DownloadActivity extends Activity {
 							if(files[i].isDirectory()) {
 								deleteDirectory(files[i]);
 							} else {
-//								publishProgress(new String[] {String.valueOf(i), "Deleting files in "+files[i].getParent()+"..."});
-//								publishProgress(new String[] {String.valueOf(i), "Deleting "+files[i].getName()+"..."});
-							    if ( ( i % 10 ) == 0 ) {
+								//								publishProgress(new String[] {String.valueOf(i), "Deleting files in "+files[i].getParent()+"..."});
+								//								publishProgress(new String[] {String.valueOf(i), "Deleting "+files[i].getName()+"..."});
+								if ( ( i % 10 ) == 0 ) {
 									publishProgress(new String[] {String.valueOf(i), "Deleting old files..."});
 									//Log.d("delete", "Deleting "+files[i].getName());
 								}
@@ -115,17 +116,17 @@ public class DownloadActivity extends Activity {
 
 			try {
 				//lock.disableKeyguard();
-				
+
 				File root = Environment.getExternalStorageDirectory();
 
 				//if (delete == 1) {
-					//pd = ProgressDialog.show(DownloadActivity.this, null, "Deleting old manual...", true, false);
-					//pd.setMax(1);
-					//publishProgress(new String[] {"0", "Deleting zip file..."});
-					//File toDelete = new File(root,"phpmanual.zip");
-					//toDelete.delete();
-					//pd.dismiss();
-					/*
+				//pd = ProgressDialog.show(DownloadActivity.this, null, "Deleting old manual...", true, false);
+				//pd.setMax(1);
+				//publishProgress(new String[] {"0", "Deleting zip file..."});
+				//File toDelete = new File(root,"phpmanual.zip");
+				//toDelete.delete();
+				//pd.dismiss();
+				/*
 					toDelete = new File(Environment.getExternalStorageDirectory()+"/"+destPath+"/html/images");
 					if (toDelete.exists()) {
 						File[] temp = toDelete.listFiles();
@@ -152,15 +153,15 @@ public class DownloadActivity extends Activity {
 					if (toDelete.exists()) {
 						toDelete.delete();
 					}
-					*/
-					/*pd.setIndeterminate(true);
+				 */
+				/*pd.setIndeterminate(true);
 					pd.setMessage("Deleting...");
 					pd.show();
-					*/
-					DeleteMe dm = new DeleteMe();
-					dm.deleteDirectory(new File(Environment.getExternalStorageDirectory()+"/"+destPath));
-					//pd.dismiss();
-					//pd.setIndeterminate(false);
+				 */
+				DeleteMe dm = new DeleteMe();
+				dm.deleteDirectory(new File(Environment.getExternalStorageDirectory()+"/"+destPath));
+				//pd.dismiss();
+				//pd.setIndeterminate(false);
 				//}
 
 				publishProgress(new String[] {"0", "Downloading PHP manual..."});
@@ -201,11 +202,11 @@ public class DownloadActivity extends Activity {
 			} finally {
 				//lock.reenableKeyguard();				
 			}
-			
-			
+
+
 			publishProgress(new String[] {"0", "Extracting Files..."});
 			//extractFile("phpmanual.zip", "php-manual");
-			
+
 			destPath = Environment.getExternalStorageDirectory()+"/"+destPath;
 			try {
 				//publishProgress(new String[] {"0", "Extracting Files..."});
@@ -216,11 +217,11 @@ public class DownloadActivity extends Activity {
 				Log.w("status of mkdir1", "s:"+status);
 
 				Enumeration entries = zipFile.entries();
-				
+
 				pd.setMax(zipFile.size());
-				
+
 				int progress = 0;
-				
+
 				while(entries.hasMoreElements()) {
 					progress++;
 					ZipEntry entry = (ZipEntry)entries.nextElement();
@@ -235,7 +236,7 @@ public class DownloadActivity extends Activity {
 					}
 
 					//Log.w("unzip", "Extracting file: " + destPath+"/"+entry.getName());
-					
+
 					if ( ( progress % 10 ) == 0 ) {
 						publishProgress(new String[] {String.valueOf(progress), "Extracting Files..."});						
 					}
@@ -245,20 +246,20 @@ public class DownloadActivity extends Activity {
 
 				zipFile.close();
 				//pd.dismiss();
-				
+
 				//pd.setIndeterminate(true);
 				//pd.show();
 
 				//pd = ProgressDialog.show(DownloadActivity.this, null, "Deleting temporary file...", true, false);
 
-//				DeleteMe dm = new DeleteMe();
-//				dm.deleteDirectory(new File(Environment.getExternalStorageDirectory()+"/phpmanual.zip"));
+				//				DeleteMe dm = new DeleteMe();
+				//				dm.deleteDirectory(new File(Environment.getExternalStorageDirectory()+"/phpmanual.zip"));
 				new File(Environment.getExternalStorageDirectory()+"/phpmanual.zip").delete();
 				new File(destPath+"/.nomedia").createNewFile();
 			} catch (IOException ioe) {
 				Log.w("unzip", "Unhandled exception:"+ioe.getMessage());
 			}
-			
+
 			publishProgress(new String[] {"100", "Done!"});
 			return true;
 		}
@@ -289,53 +290,53 @@ public class DownloadActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.download);
-		
+
 		/* This code together with the one in onDestroy()
-         * will make the screen be always on until this Activity gets destroyed. */
+		 * will make the screen be always on until this Activity gets destroyed. */
 		// http://developer.android.com/intl/de/reference/android/os/PowerManager.html
 		final PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
-        this.mWakeLock = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "My Tag");
-        this.mWakeLock.acquire();
-		
+		this.mWakeLock = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "My Tag");
+		this.mWakeLock.acquire();
+
 		myPrefs = getSharedPreferences("PhpManualSettings", 0);
-		
- 	    Bundle bundle = getIntent().getExtras();
- 	    if (bundle != null) delete = bundle.getInt("delete");
-		
+
+		Bundle bundle = getIntent().getExtras();
+		if (bundle != null) delete = bundle.getInt("delete");
+
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(
 				this,
 				android.R.layout.simple_spinner_item,
 				languageValues);
-	    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
 		Spinner s = (Spinner) findViewById(R.id.lang_spinner);
-        s.setAdapter(adapter);
-        
-        //s.setOnClickListener(l)
-        
-    	saveButton = (Button) findViewById(R.id.doDownload);
-    	saveButton.setOnClickListener(new OnClickListener() {
-    		@Override
-    		public void onClick(View v) {
-//    			Toast.makeText(getBaseContext(),"Selected "+lang+"...", Toast.LENGTH_SHORT).show();
-    			new DownloadAndInstall().execute(myPrefs);
-    			//startService(new Intent(DownloadActivity.this, BackgroundService.class));
-    		}
-    	});
+		s.setAdapter(adapter);
 
-    	cancelButton = (Button) findViewById(R.id.cancelDownload);
-    	cancelButton.setOnClickListener(new OnClickListener() {
-    		@Override
-    		public void onClick(View v) {
-    			finish();
-    		}
-    	});
+		//s.setOnClickListener(l)
+
+		saveButton = (Button) findViewById(R.id.doDownload);
+		saveButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				//    			Toast.makeText(getBaseContext(),"Selected "+lang+"...", Toast.LENGTH_SHORT).show();
+				new DownloadAndInstall().execute(myPrefs);
+				//startService(new Intent(DownloadActivity.this, BackgroundService.class));
+			}
+		});
+
+		cancelButton = (Button) findViewById(R.id.cancelDownload);
+		cancelButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				finish();
+			}
+		});
 	}
 
 	@Override
 	protected void onDestroy() {
-        this.mWakeLock.release(); 
-        super.onDestroy();
+		this.mWakeLock.release(); 
+		super.onDestroy();
 	}
-	
+
 }
