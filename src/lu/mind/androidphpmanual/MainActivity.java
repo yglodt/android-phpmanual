@@ -27,6 +27,8 @@ public class MainActivity extends Activity {
 	private WebView webview;
 	SharedPreferences myPrefs;
 
+//add code to preserve view on rotate 
+	
 	/*
 	private static void extractFile(String fileName, String destPath) {		
 
@@ -93,7 +95,7 @@ public class MainActivity extends Activity {
 		// http://www.techjini.com/blog/2009/01/10/android-tip-1-contentprovider-accessing-local-file-system-from-webview-showing-image-in-webview-using-content/
 		super.onCreate(savedInstanceState);
 
-		myPrefs = getSharedPreferences("PhpDocViewerSettings", 0);
+		myPrefs = getSharedPreferences("PhpManualSettings", 0);
 
 		//Log.d("path1", getFilesDir().getAbsolutePath());
 		//Log.d("path2", Environment.getExternalStorageDirectory()+"/aaa");
@@ -101,12 +103,13 @@ public class MainActivity extends Activity {
 		getWindow().requestFeature(Window.FEATURE_PROGRESS);
 
 		setContentView(R.layout.main);
-		boolean filesDoExist = new File(Environment.getExternalStorageDirectory()+"/phpdocviewer/html/index.html").exists();
+		boolean filesDoExist = new File(Environment.getExternalStorageDirectory()+"/php-manual/html/index.html").exists();
 
 		if (!filesDoExist) {
-			Log.d("phpdocviewer", "Files to not exist, redirecting to download view");
+			Log.d("php-manual", "Files to not exist, redirecting to download view");
 			Intent i = new Intent();
 			startActivity(i.setClass(MainActivity.this, DownloadActivity.class));
+			finish();
 			// start download view
 			/*new AlertDialog.Builder(this)
 			.setMessage("Do you want to download and extract the PHP documentation (15MB) now?")
@@ -115,11 +118,11 @@ public class MainActivity extends Activity {
 			.setCancelable(false)
 			.show();*/
 		} else {
-			Log.d("phpdocviewer", "Files exist, showing them");
+			Log.d("php-manual", "Files exist, showing them");
 			webview = (WebView) findViewById(R.id.webview);
-			webview.setWebViewClient(new PhpDocViewerView());
+			webview.setWebViewClient(new PhpManualView());
 			webview.getSettings().setJavaScriptEnabled(false);
-			webview.loadUrl("content://lu.mind.androidphpmanual/sdcard/phpdocviewer/html/index.html");
+			webview.loadUrl("content://lu.mind.androidphpmanual/sdcard/php-manual/html/index.html");
 
 			final Activity activity = this;
 			webview.setWebChromeClient(new WebChromeClient() {
@@ -132,14 +135,14 @@ public class MainActivity extends Activity {
 
 			webview.setWebViewClient(new WebViewClient() {
 				public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-					Toast.makeText(activity, description, Toast.LENGTH_SHORT).show();
+					//Toast.makeText(activity, description, Toast.LENGTH_SHORT).show();
 				}
 			});        
 		}
 	}
 
 
-	private class PhpDocViewerView extends WebViewClient {
+	private class PhpManualView extends WebViewClient {
 		@Override
 		public boolean shouldOverrideUrlLoading(WebView view, String url) {
 			view.loadUrl(url);
@@ -179,7 +182,7 @@ public class MainActivity extends Activity {
     	Window window = d.getWindow();
 	    switch (item.getItemId()) {
 	    case R.id.mainMenuReturnToIndex:
-			webview.loadUrl("content://lu.mind.projects.phpdocv/sdcard/phpdocviewer/html/index.html");
+			webview.loadUrl("content://lu.mind.androidphpmanual/sdcard/php-manual/html/index.html");
 	        return true;
 	    case R.id.mainMenuReDownloadDocumentation:
 	    	i.putExtra("delete", 1);
@@ -193,8 +196,8 @@ public class MainActivity extends Activity {
 	    	d.show();
 	    	//startActivityForResult(i.setClass(MainActivity.this, About.class), 3);
 	        return true;
-	    case R.id.quit:
-	        this.finish();
+	    //case R.id.quit:
+	    //    this.finish();
 	    }
 	    return false;
 	}

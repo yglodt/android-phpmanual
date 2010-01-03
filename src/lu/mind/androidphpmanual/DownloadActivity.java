@@ -50,9 +50,8 @@ public class DownloadActivity extends Activity {
 			"Korean",
 			"Polish",
 			"Romanian",
-			"Turkish",
-			"Zy Test",
-			"Zz Test"
+			"Turkish"
+			,"Testing"
 			};
 	String[] languageKeys = {
 			"en",
@@ -64,9 +63,8 @@ public class DownloadActivity extends Activity {
 			"kr",
 			"pl",
 			"ro",
-			"tr",
-			"zy",
-			"zz"
+			"tr"
+			,"test"
 			};
 	
 	
@@ -75,7 +73,7 @@ public class DownloadActivity extends Activity {
 		protected void onPreExecute() {
 			pd = new ProgressDialog(DownloadActivity.this);
 			pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-			pd.setMessage("Loading...");
+			pd.setMessage("Please wait...");
 			pd.setIndeterminate(false);
 			pd.setCancelable(false);
 			pd.show();
@@ -83,8 +81,8 @@ public class DownloadActivity extends Activity {
 
 		@Override
 		protected Boolean doInBackground(SharedPreferences... prefs) {
-			String destPath = "phpdocviewer";
-			String fileName = "phpdoc.zip";
+			String destPath = "php-manual";
+			String fileName = "phpmanual.zip";
 			
 			language = (Spinner) findViewById(R.id.lang_spinner);
 			lang = languageKeys[language.getSelectedItemPosition()];
@@ -102,7 +100,7 @@ public class DownloadActivity extends Activity {
 //								publishProgress(new String[] {String.valueOf(i), "Deleting "+files[i].getName()+"..."});
 							    if ( ( i % 10 ) == 0 ) {
 									publishProgress(new String[] {String.valueOf(i), "Deleting old files..."});
-									Log.d("delete", "Deleting "+files[i].getName());
+									//Log.d("delete", "Deleting "+files[i].getName());
 								}
 								files[i].delete();
 							}
@@ -124,7 +122,7 @@ public class DownloadActivity extends Activity {
 					//pd = ProgressDialog.show(DownloadActivity.this, null, "Deleting old manual...", true, false);
 					//pd.setMax(1);
 					//publishProgress(new String[] {"0", "Deleting zip file..."});
-					//File toDelete = new File(root,"phpdoc.zip");
+					//File toDelete = new File(root,"phpmanual.zip");
 					//toDelete.delete();
 					//pd.dismiss();
 					/*
@@ -175,7 +173,7 @@ public class DownloadActivity extends Activity {
 				Integer fileSize = Integer.parseInt(c.getHeaderField("Content-Length"));
 				pd.setMax(fileSize/1024);
 				Log.i("download size", ""+c.getHeaderField("Content-Length"));
-				FileOutputStream f = new FileOutputStream(new File(root,"phpdoc.zip"));
+				FileOutputStream f = new FileOutputStream(new File(root,"phpmanual.zip"));
 
 				InputStream in = c.getInputStream();
 
@@ -190,7 +188,9 @@ public class DownloadActivity extends Activity {
 					doneSoFar = doneSoFar + 1024;
 					iteration++;
 					if (doneSoFar > (onePercent * progress) ) {
-						publishProgress(new String[] {String.valueOf(doneSoFar/1024), "Downloading PHP manual..."});
+						if ( ( (doneSoFar/1024) % 10 ) == 0 ) {
+							publishProgress(new String[] {String.valueOf(doneSoFar/1024), "Downloading PHP manual..."});
+						}
 						progress++;
 					}
 					//Log.w("iteration", "I:"+iteration+", size: "+1024*iteration);
@@ -204,11 +204,11 @@ public class DownloadActivity extends Activity {
 			
 			
 			publishProgress(new String[] {"0", "Extracting Files..."});
-			//extractFile("phpdoc.zip", "phpdocviewer");
+			//extractFile("phpmanual.zip", "php-manual");
 			
 			destPath = Environment.getExternalStorageDirectory()+"/"+destPath;
 			try {
-				publishProgress(new String[] {"0", "Downloading PHP manual..."});
+				//publishProgress(new String[] {"0", "Extracting Files..."});
 				ZipFile zipFile = new ZipFile(Environment.getExternalStorageDirectory()+"/"+fileName);
 
 				boolean status;
@@ -252,12 +252,12 @@ public class DownloadActivity extends Activity {
 				//pd = ProgressDialog.show(DownloadActivity.this, null, "Deleting temporary file...", true, false);
 
 //				DeleteMe dm = new DeleteMe();
-//				dm.deleteDirectory(new File(Environment.getExternalStorageDirectory()+"/phpdoc.zip"));
-				new File(Environment.getExternalStorageDirectory()+"/phpdoc.zip").delete();
+//				dm.deleteDirectory(new File(Environment.getExternalStorageDirectory()+"/phpmanual.zip"));
+				new File(Environment.getExternalStorageDirectory()+"/phpmanual.zip").delete();
+				new File(destPath+"/.nomedia").createNewFile();
 			} catch (IOException ioe) {
 				Log.w("unzip", "Unhandled exception:"+ioe.getMessage());
 			}
-
 			
 			publishProgress(new String[] {"100", "Done!"});
 			return true;
@@ -279,9 +279,9 @@ public class DownloadActivity extends Activity {
 		protected void onPostExecute(Boolean result) {
 			super.onPostExecute(result);
 			pd.dismiss();
-			finish();
 			Intent intent = new Intent();
 			startActivity(intent.setClass(DownloadActivity.this, MainActivity.class));
+			finish();
 		}
 	}
 
@@ -297,7 +297,7 @@ public class DownloadActivity extends Activity {
         this.mWakeLock = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "My Tag");
         this.mWakeLock.acquire();
 		
-		myPrefs = getSharedPreferences("PhpDocViewerSettings", 0);
+		myPrefs = getSharedPreferences("PhpManualSettings", 0);
 		
  	    Bundle bundle = getIntent().getExtras();
  	    if (bundle != null) delete = bundle.getInt("delete");
