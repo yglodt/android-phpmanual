@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">PHP Manual</string>
+    <string name="app_name_long">Offline PHP Manual Reader</string>
+    <string name="prompt_lang">Choose manual language</string>
+    <string name="menu_return">Index</string>
+    <string name="menu_reload">Download</string>
+    <string name="menu_about">About</string>
+    <string name="menu_quit">Quit</string>
+
+</resources>
