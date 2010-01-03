@@ -122,8 +122,12 @@ public class MainActivity extends Activity {
 			webView = (WebView) findViewById(R.id.webview);
 			webView.setWebViewClient(new PhpManualView());
 			webView.getSettings().setJavaScriptEnabled(false);
-			webView.loadUrl("content://lu.mind.androidphpmanual/sdcard/php-manual/html/index.html");
-			restoreState(savedInstanceState);				
+			
+			//if (savedInstanceState != null) {
+				//restoreState(savedInstanceState);
+			//} else {
+				webView.loadUrl("content://lu.mind.androidphpmanual/sdcard/php-manual/html/index.html");				
+			//}
 
 			final Activity activity = this;
 			webView.setWebChromeClient(new WebChromeClient() {
@@ -203,7 +207,7 @@ public class MainActivity extends Activity {
 		return false;
 	}
 
-	
+	/*
 	private void restoreState(Bundle state) {
 		if (state != null) {
 			String lastUrl = state.getString("lastUrl");
@@ -215,6 +219,12 @@ public class MainActivity extends Activity {
 		}
 	}
 
+	
+	private void saveState(Bundle state) {
+		state.putString("lastUrl", webView.getUrl());
+		Toast.makeText(this, "Saving lastUrl: "+webView.getUrl(), Toast.LENGTH_SHORT).show(); 		
+	}
+	
 
 	@Override
 	protected void onRestoreInstanceState(Bundle savedInstanceState) {
@@ -228,34 +238,42 @@ public class MainActivity extends Activity {
 	protected void onSaveInstanceState(Bundle outState) {
 		Toast.makeText(this, "onSaveInstanceState", Toast.LENGTH_SHORT).show();
 		if (webView != null) {
-			outState.putString("lastUrl", webView.getUrl());
-			Toast.makeText(this, "saving state", Toast.LENGTH_SHORT).show(); 
+			saveState(outState);
 		}
 		super.onSaveInstanceState(outState);
 	}
-	
-    protected void onStart() {    	
+	*/
+
+    /*
+    protected void onStart() {
+    	super.onStart();
 		Toast.makeText(this, "onStart", Toast.LENGTH_SHORT).show();
     }
-    
+
     protected void onRestart() {
+    	super.onRestart();
 		Toast.makeText(this, "onRestart", Toast.LENGTH_SHORT).show();
     }
 
     protected void onResume() {
+    	super.onResume();
 		Toast.makeText(this, "onResume", Toast.LENGTH_SHORT).show();
     }
 
     protected void onPause() {
+    	super.onPause();
 		Toast.makeText(this, "onPause", Toast.LENGTH_SHORT).show();
     }
 
     protected void onStop() {
+    	super.onStop();
 		Toast.makeText(this, "onStop", Toast.LENGTH_SHORT).show();
     }
 
     protected void onDestroy() {
+    	super.onDestroy();
 		Toast.makeText(this, "onDestroy", Toast.LENGTH_SHORT).show();
     }
+	*/
 
 }
