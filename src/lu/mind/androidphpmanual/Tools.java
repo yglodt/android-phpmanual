@@ -8,7 +8,7 @@ import java.io.OutputStream;
 public class Tools {
 
 	public static final void copyInputStream(InputStream in, OutputStream out)
-			throws IOException {
+	throws IOException {
 		byte[] buffer = new byte[1024];
 		int len;
 
@@ -19,19 +19,18 @@ public class Tools {
 		out.close();
 	}
 
-	
 	static public boolean deleteDirectory(File path) {
-	    if (path.exists()) {
-	      File[] files = path.listFiles();
-	      for(int i=0; i<files.length; i++) {
-	         if(files[i].isDirectory()) {
-	           deleteDirectory(files[i]);
-	         } else {
-	           files[i].delete();
-	         }
-	      }
-	    }
-	    return( path.delete() );
-	  }
+		if (path.exists()) {
+			File[] files = path.listFiles();
+			for(int i=0; i<files.length; i++) {
+				if(files[i].isDirectory()) {
+					deleteDirectory(files[i]);
+				} else {
+					files[i].delete();
+				}
+			}
+		}
+		return( path.delete() );
+	}
 
 }
