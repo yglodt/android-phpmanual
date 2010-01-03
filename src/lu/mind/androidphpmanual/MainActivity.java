@@ -19,7 +19,6 @@ import android.view.WindowManager;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.Toast;
 
 public class MainActivity extends Activity {
 
@@ -27,8 +26,8 @@ public class MainActivity extends Activity {
 	private WebView webview;
 	SharedPreferences myPrefs;
 
-//add code to preserve view on rotate 
-	
+	//add code to preserve view on rotate 
+
 	/*
 	private static void extractFile(String fileName, String destPath) {		
 
@@ -41,11 +40,11 @@ public class MainActivity extends Activity {
 			Log.w("status of mkdir1", "s:"+status);
 
 			Enumeration entries = zipFile.entries();
-			
+
 			int i1 = 3;
 			int i2 = 2;
 			Log.w("test", "3/2: "+i1/i2);
-			
+
 			while(entries.hasMoreElements()) {
 				ZipEntry entry = (ZipEntry)entries.nextElement();
 
@@ -71,7 +70,7 @@ public class MainActivity extends Activity {
 
 
 	}
-*/
+	 */
 	/*
 	private final OnClickListener mOkListener = new OnClickListener() {
         public void onClick(DialogInterface dialog, int whichButton) {
@@ -86,7 +85,7 @@ public class MainActivity extends Activity {
             MainActivity.this.finish();
         }
     };
-*/
+	 */
 
 	/** Called when the activity is first created. */
 	@Override
@@ -99,7 +98,7 @@ public class MainActivity extends Activity {
 
 		//Log.d("path1", getFilesDir().getAbsolutePath());
 		//Log.d("path2", Environment.getExternalStorageDirectory()+"/aaa");
-		
+
 		getWindow().requestFeature(Window.FEATURE_PROGRESS);
 
 		setContentView(R.layout.main);
@@ -168,38 +167,38 @@ public class MainActivity extends Activity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-	    MenuInflater inflater = getMenuInflater();
-	    //menu.add(0, 1234, 0, "Back to index");
-	    //menu.add(0, 1234, 0, "Re-download documentation");
-	    inflater.inflate(R.menu.menu_main, menu);
-	    return true;
+		MenuInflater inflater = getMenuInflater();
+		//menu.add(0, 1234, 0, "Back to index");
+		//menu.add(0, 1234, 0, "Re-download documentation");
+		inflater.inflate(R.menu.menu_main, menu);
+		return true;
 	}
-	
+
 	/* Handles item selections */
 	public boolean onOptionsItemSelected(MenuItem item) {
-    	Intent i = new Intent();
-    	Dialog d = new Dialog(MainActivity.this);
-    	Window window = d.getWindow();
-	    switch (item.getItemId()) {
-	    case R.id.mainMenuReturnToIndex:
+		Intent i = new Intent();
+		Dialog d = new Dialog(MainActivity.this);
+		Window window = d.getWindow();
+		switch (item.getItemId()) {
+		case R.id.mainMenuReturnToIndex:
 			webview.loadUrl("content://lu.mind.androidphpmanual/sdcard/php-manual/html/index.html");
-	        return true;
-	    case R.id.mainMenuReDownloadDocumentation:
-	    	i.putExtra("delete", 1);
+			return true;
+		case R.id.mainMenuReDownloadDocumentation:
+			i.putExtra("delete", 1);
 			startActivity(i.setClass(MainActivity.this, DownloadActivity.class));
-	    	//startActivityForResult(i.setClass(MainView.this, UserSettings.class), 2);
-	        return true;
-	    case R.id.about:
-	    	window.setFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND, WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
-	    	window.requestFeature(Window.FEATURE_NO_TITLE);
-	    	d.setContentView(R.layout.about);
-	    	d.show();
-	    	//startActivityForResult(i.setClass(MainActivity.this, About.class), 3);
-	        return true;
-	    //case R.id.quit:
-	    //    this.finish();
-	    }
-	    return false;
+			//startActivityForResult(i.setClass(MainView.this, UserSettings.class), 2);
+			return true;
+		case R.id.about:
+			window.setFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND, WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
+			window.requestFeature(Window.FEATURE_NO_TITLE);
+			d.setContentView(R.layout.about);
+			d.show();
+			//startActivityForResult(i.setClass(MainActivity.this, About.class), 3);
+			return true;
+			//case R.id.quit:
+			//    this.finish();
+		}
+		return false;
 	}
 
 }
