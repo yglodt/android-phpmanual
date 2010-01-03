@@ -19,11 +19,12 @@ import android.view.WindowManager;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Toast;
 
 public class MainActivity extends Activity {
 
 	private ProgressDialog pd;
-	private WebView webview;
+	private WebView webView;
 	SharedPreferences myPrefs;
 
 	//add code to preserve view on rotate 
@@ -118,13 +119,14 @@ public class MainActivity extends Activity {
 			.show();*/
 		} else {
 			Log.d("php-manual", "Files exist, showing them");
-			webview = (WebView) findViewById(R.id.webview);
-			webview.setWebViewClient(new PhpManualView());
-			webview.getSettings().setJavaScriptEnabled(false);
-			webview.loadUrl("content://lu.mind.androidphpmanual/sdcard/php-manual/html/index.html");
+			webView = (WebView) findViewById(R.id.webview);
+			webView.setWebViewClient(new PhpManualView());
+			webView.getSettings().setJavaScriptEnabled(false);
+			webView.loadUrl("content://lu.mind.androidphpmanual/sdcard/php-manual/html/index.html");
+			restoreState(savedInstanceState);				
 
 			final Activity activity = this;
-			webview.setWebChromeClient(new WebChromeClient() {
+			webView.setWebChromeClient(new WebChromeClient() {
 				public void onProgressChanged(WebView view, int progress) {
 					// Activities and WebViews measure progress with different scales.
 					// The progress meter will automatically disappear when we reach 100%
@@ -132,7 +134,7 @@ public class MainActivity extends Activity {
 				}
 			});
 
-			webview.setWebViewClient(new WebViewClient() {
+			webView.setWebViewClient(new WebViewClient() {
 				public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
 					//Toast.makeText(activity, description, Toast.LENGTH_SHORT).show();
 				}
@@ -152,12 +154,12 @@ public class MainActivity extends Activity {
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		Log.d("path", webview.getUrl());
-		if ((keyCode == KeyEvent.KEYCODE_BACK) && webview.canGoBack()) {
-			if (webview.getUrl().endsWith("/html/index.html")) {
+		Log.d("path", webView.getUrl());
+		if ((keyCode == KeyEvent.KEYCODE_BACK) && webView.canGoBack()) {
+			if (webView.getUrl().endsWith("/html/index.html")) {
 				finish();
 			} else {
-				webview.goBack();				
+				webView.goBack();				
 			}
 			return true;
 		}
@@ -181,7 +183,7 @@ public class MainActivity extends Activity {
 		Window window = d.getWindow();
 		switch (item.getItemId()) {
 		case R.id.mainMenuReturnToIndex:
-			webview.loadUrl("content://lu.mind.androidphpmanual/sdcard/php-manual/html/index.html");
+			webView.loadUrl("content://lu.mind.androidphpmanual/sdcard/php-manual/html/index.html");
 			return true;
 		case R.id.mainMenuReDownloadDocumentation:
 			i.putExtra("delete", 1);
@@ -200,5 +202,60 @@ public class MainActivity extends Activity {
 		}
 		return false;
 	}
+
+	
+	private void restoreState(Bundle state) {
+		if (state != null) {
+			String lastUrl = state.getString("lastUrl");
+			if ((webView != null) && (lastUrl != null)) {
+				webView.loadUrl(lastUrl);
+			}
+		} else {
+			Toast.makeText(this, "not restoring state, bundle was null.", Toast.LENGTH_SHORT).show(); 			
+		}
+	}
+
+
+	@Override
+	protected void onRestoreInstanceState(Bundle savedInstanceState) {
+		super.onRestoreInstanceState(savedInstanceState);
+		Toast.makeText(this, "onRestoreInstanceState", Toast.LENGTH_SHORT).show(); 
+		restoreState(savedInstanceState);
+	}
+
+
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		Toast.makeText(this, "onSaveInstanceState", Toast.LENGTH_SHORT).show();
+		if (webView != null) {
+			outState.putString("lastUrl", webView.getUrl());
+			Toast.makeText(this, "saving state", Toast.LENGTH_SHORT).show(); 
+		}
+		super.onSaveInstanceState(outState);
+	}
+	
+    protected void onStart() {    	
+		Toast.makeText(this, "onStart", Toast.LENGTH_SHORT).show();
+    }
+    
+    protected void onRestart() {
+		Toast.makeText(this, "onRestart", Toast.LENGTH_SHORT).show();
+    }
+
+    protected void onResume() {
+		Toast.makeText(this, "onResume", Toast.LENGTH_SHORT).show();
+    }
+
+    protected void onPause() {
+		Toast.makeText(this, "onPause", Toast.LENGTH_SHORT).show();
+    }
+
+    protected void onStop() {
+		Toast.makeText(this, "onStop", Toast.LENGTH_SHORT).show();
+    }
+
+    protected void onDestroy() {
+		Toast.makeText(this, "onDestroy", Toast.LENGTH_SHORT).show();
+    }
 
 }
