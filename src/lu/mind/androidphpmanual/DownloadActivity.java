@@ -52,7 +52,7 @@ public class DownloadActivity extends Activity {
 			"Polish",
 			"Romanian",
 			"Turkish"
-			,"Testing"
+			//,"Testing"
 	};
 	String[] languageKeys = {
 			"en",
@@ -65,7 +65,7 @@ public class DownloadActivity extends Activity {
 			"pl",
 			"ro",
 			"tr"
-			,"test"
+			//,"test"
 	};
 
 

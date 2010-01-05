@@ -26,7 +26,7 @@
 	</TableRow>
 
     <TableRow android:gravity="center">
-    <TextView android:text="Version: 0.9 / 28.12.2009" android:textColor="#000" />
+    <TextView android:text="Version: 1.0 / 05.01.2010" android:textColor="#000" />
     </TableRow>
     
     <TableRow android:gravity="center">
